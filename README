@@ -1,0 +1,18 @@
+OpenDomotic is a low cost Domotic Solution licensed under the GNU GPL v2 license.
+
+General Features:
+    GUI based on Qt
+    Low cost hardware 
+    Eigth zones with movement and magnetics sensors
+    Ligths auto on/off by zone
+    AlarmClock
+    Two modes (nigth/travel)
+    Power Consumption (historics and price/month)
+    Other Sensors (ligth,temperature,gas leakage detector)
+    Reconfiguration over serial
+    ... and more 
+
+--TODO:
+    Init the documentation :D 
+    Shield PCB for arduino Pro/Mega 
+    Software implementation of pin change interrupts on Mega

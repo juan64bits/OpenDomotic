@@ -1,0 +1,128 @@
+<!--
+Configuration file for avrDomotic v1.0
+-->
+<Settings>
+    <NigthSettings Tone="1" Ligths="1" LEDs="1" LigthsOff="1" Call="0" Siren="1">
+        <MovSensor ID="0" Value="1"/>
+        <MovSensor ID="1" Value="0"/>
+        <MovSensor ID="2" Value="0"/>
+        <MovSensor ID="3" Value="0"/>
+        <MovSensor ID="4" Value="0"/>
+        <MovSensor ID="5" Value="0"/>
+        <MovSensor ID="6" Value="0"/>
+        <MovSensor ID="7" Value="0"/>
+        <MagSensor ID="0" Value="0"/>
+        <MagSensor ID="1" Value="0"/>
+        <MagSensor ID="2" Value="0"/>
+        <MagSensor ID="3" Value="0"/>
+        <MagSensor ID="4" Value="0"/>
+        <MagSensor ID="5" Value="0"/>
+        <MagSensor ID="6" Value="0"/>
+        <MagSensor ID="7" Value="0"/>
+        <Ligth ID="0" Value="0"/>
+        <Ligth ID="1" Value="0"/>
+        <Ligth ID="2" Value="0"/>
+        <Ligth ID="3" Value="0"/>
+        <Ligth ID="4" Value="0"/>
+        <Ligth ID="5" Value="0"/>
+        <Ligth ID="6" Value="0"/>
+        <Ligth ID="7" Value="0"/>
+    </NigthSettings>
+    <TravelSettings Tone="1" Ligths="1" LEDs="1" LigthsOff="1" Call="1" Siren="1">
+        <MovSensor ID="0" Value="1"/>
+        <MovSensor ID="1" Value="1"/>
+        <MovSensor ID="2" Value="1"/>
+        <MovSensor ID="3" Value="1"/>
+        <MovSensor ID="4" Value="1"/>
+        <MovSensor ID="5" Value="1"/>
+        <MovSensor ID="6" Value="1"/>
+        <MovSensor ID="7" Value="1"/>
+        <MagSensor ID="0" Value="1"/>
+        <MagSensor ID="1" Value="1"/>
+        <MagSensor ID="2" Value="1"/>
+        <MagSensor ID="3" Value="1"/>
+        <MagSensor ID="4" Value="1"/>
+        <MagSensor ID="5" Value="1"/>
+        <MagSensor ID="6" Value="1"/>
+        <MagSensor ID="7" Value="1"/>
+        <Ligth ID="0" Value="1"/>
+        <Ligth ID="1" Value="1"/>
+        <Ligth ID="2" Value="1"/>
+        <Ligth ID="3" Value="1"/>
+        <Ligth ID="4" Value="1"/>
+        <Ligth ID="5" Value="1"/>
+        <Ligth ID="6" Value="1"/>
+        <Ligth ID="7" Value="1"/>
+    </TravelSettings>
+    <PassSettings Pass="6245" Protected="1"/>
+    <GeneralSettings TimeAlarmOn="1" TimeNigthEnd="06:00 AM" SoundOn="1" TimeNigthInit="05:30 PM" AlarmSiren="1" NigthManual="1" TimeAlarm="01:55 PM" AlarmLigths="1" kWhPrice="641" ReadDay="15">
+        <SensorOn ID="0" Value="1"/>
+        <TimeShort ID="0" Value="30"/>
+        <TimeLong ID="0" Value="15"/>
+        <SensorOn ID="1" Value="1"/>
+        <TimeShort ID="1" Value="10"/>
+        <TimeLong ID="1" Value="191"/>
+        <SensorOn ID="2" Value="1"/>
+        <TimeShort ID="2" Value="10"/>
+        <TimeLong ID="2" Value="15"/>
+        <SensorOn ID="3" Value="1"/>
+        <TimeShort ID="3" Value="10"/>
+        <TimeLong ID="3" Value="15"/>
+        <SensorOn ID="4" Value="1"/>
+        <TimeShort ID="4" Value="10"/>
+        <TimeLong ID="4" Value="15"/>
+        <SensorOn ID="5" Value="1"/>
+        <TimeShort ID="5" Value="30"/>
+        <TimeLong ID="5" Value="15"/>
+        <SensorOn ID="6" Value="1"/>
+        <TimeShort ID="6" Value="10"/>
+        <TimeLong ID="6" Value="15"/>
+        <SensorOn ID="7" Value="1"/>
+        <TimeShort ID="7" Value="30"/>
+        <TimeLong ID="7" Value="198"/>
+    </GeneralSettings>
+    <Historics LastDate="03.03.2012" PowerAccumulateDay="0" PowerAccumulate="5305,010555555225">
+        <Last30Days ID="0" Value="10000"/>
+        <Last30Days ID="1" Value="10000"/>
+        <Last30Days ID="2" Value="10000"/>
+        <Last30Days ID="3" Value="10000"/>
+        <Last30Days ID="4" Value="10000"/>
+        <Last30Days ID="5" Value="10000"/>
+        <Last30Days ID="6" Value="10000"/>
+        <Last30Days ID="7" Value="10000"/>
+        <Last30Days ID="8" Value="10000"/>
+        <Last30Days ID="9" Value="10000"/>
+        <Last30Days ID="10" Value="10000"/>
+        <Last30Days ID="11" Value="10000"/>
+        <Last30Days ID="12" Value="10000"/>
+        <Last30Days ID="13" Value="10000"/>
+        <Last30Days ID="14" Value="10000"/>
+        <Last30Days ID="15" Value="10000"/>
+        <Last30Days ID="16" Value="10000"/>
+        <Last30Days ID="17" Value="10000"/>
+        <Last30Days ID="18" Value="10000"/>
+        <Last30Days ID="19" Value="10000"/>
+        <Last30Days ID="20" Value="10000"/>
+        <Last30Days ID="21" Value="10000"/>
+        <Last30Days ID="22" Value="10000"/>
+        <Last30Days ID="23" Value="10000"/>
+        <Last30Days ID="24" Value="10000"/>
+        <Last30Days ID="25" Value="10000"/>
+        <Last30Days ID="26" Value="10000"/>
+        <Last30Days ID="27" Value="10000"/>
+        <Last30Days ID="28" Value="10000"/>
+        <Last30Days ID="29" Value="10284,65532499621"/>
+        <Last12Months ID="0" Value="300000"/>
+        <Last12Months ID="1" Value="300000"/>
+        <Last12Months ID="2" Value="300000"/>
+        <Last12Months ID="3" Value="300000"/>
+        <Last12Months ID="4" Value="300000"/>
+        <Last12Months ID="5" Value="300000"/>
+        <Last12Months ID="6" Value="300000"/>
+        <Last12Months ID="7" Value="300000"/>
+        <Last12Months ID="8" Value="300000"/>
+        <Last12Months ID="9" Value="300000"/>
+        <Last12Months ID="10" Value="300000"/>
+        <Last12Months ID="11" Value="190536,1297833295"/>
+    </Historics>
+</Settings>

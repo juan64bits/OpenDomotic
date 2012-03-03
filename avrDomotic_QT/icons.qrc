@@ -1,0 +1,40 @@
+<RCC>
+    <qresource prefix="/">
+        <file alias="lock">icons/Cadenas 3D.png</file>
+        <file alias="unlock">icons/Cadenas 3D O.png</file>
+        <file alias="screensaver">icons/ecran 3D w .png</file>
+        <file alias="screenoff">icons/ecran 3D off .png</file>
+        <file alias="mobilephone">icons/samsung 3D.PNG</file>
+        <file alias="audio">icons/Son et Audio 3D .png</file>
+        <file alias="noaudio">icons/Son et Audio 3D Off.png</file>
+        <file alias="alarm">icons/Time Machine.png</file>
+        <file alias="noalarm">icons/Time Machine Off.png</file>
+        <file alias="shock">icons/Winamp 3D.png</file>
+        <file alias="media">icons/Chaine.png</file>
+        <file alias="enter">icons/clavier 3D.png</file>
+        <file alias="keys">icons/clavier 3D v2 .png</file>
+        <file alias="usb">icons/clef usb 3D.png</file>
+        <file alias="settings">icons/cxp 3D v2 .png</file>
+        <file alias="save">icons/disque dur 3d v3.png</file>
+        <file alias="secure">icons/Private folder 3D.png</file>
+        <file alias="stop">icons/vlc 3D.png</file>
+        <file alias="nigth">icons/nigth.png</file>
+        <file alias="travel">icons/travel.png</file>
+        <file alias="bomb">icons/bomb_small.png</file>
+        <file alias="saver">icons/ligth_small.png</file>
+        <file alias="mag">icons/mag_small.png</file>
+        <file alias="mov">icons/mov_small.png</file>
+        <file alias="siren2">icons/enceinte 3D.png</file>
+        <file alias="movled">icons/mov_medium_led.png</file>
+        <file alias="siren">icons/siren.png</file>
+        <file alias="saver2">icons/ligth_medium.png</file>
+        <file alias="passunlock">icons/passunlock.png</file>
+        <file alias="cancel">icons/cancel.png</file>
+        <file alias="ok">icons/ok.png</file>
+        <file alias="plan">plans/plan1.png</file>
+        <file alias="saveron">icons/ligth_medium_on.png</file>
+        <file alias="magon">icons/mag_small_on.png</file>
+        <file alias="movon">icons/mov_small_on.png</file>
+        <file alias="digits">icons/train_digits.svg</file>
+    </qresource>
+</RCC>
