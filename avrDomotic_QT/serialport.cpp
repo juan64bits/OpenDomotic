@@ -2,7 +2,7 @@
 
 SerialPort::SerialPort()
 {
-	portfd=0;	
+    portfd=-1;
 }
 
 int SerialPort::OpenPort(char *portfile, speed_t baudRate)
@@ -64,7 +64,7 @@ int SerialPort::OpenPort(char *portfile, speed_t baudRate)
 void SerialPort::ClosePort()
 {
 	close(portfd);
-	portfd = 0;
+    portfd = -1;
 }
 
 int SerialPort::CheckIO(int fd1, int fd2, int tmout, char *buf, int *buflen)
@@ -117,9 +117,10 @@ int SerialPort::WritePort(char *data,  int size)
 
 void SerialPort::Flush()
 {
+    int a;
     do
     {
-     CheckIO(portfd, 0, 0, buf, &bytesRead);
-    }while(bytesRead);
+        a = ReadPort();        
+    }while((a & 1) == 1 && bytesRead>0);
 }
 

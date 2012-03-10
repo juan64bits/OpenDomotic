@@ -55,7 +55,7 @@ Configuration file for avrDomotic v1.0
         <Ligth ID="7" Value="1"/>
     </TravelSettings>
     <PassSettings Pass="6245" Protected="1"/>
-    <GeneralSettings TimeAlarmOn="1" TimeNigthEnd="06:00 AM" SoundOn="1" TimeNigthInit="05:30 PM" AlarmSiren="1" NigthManual="1" TimeAlarm="01:55 PM" AlarmLigths="1" kWhPrice="641" ReadDay="15">
+    <GeneralSettings TimeAlarmOn="1" TimeNigthEnd="06:00 AM" SoundOn="1" TimeNigthInit="05:30 PM" AlarmSiren="1" NigthManual="1" TimeAlarm="04:47 PM" AlarmLigths="1" kWhPrice="641" ReadDay="15">
         <SensorOn ID="0" Value="1"/>
         <TimeShort ID="0" Value="30"/>
         <TimeLong ID="0" Value="15"/>
@@ -81,7 +81,7 @@ Configuration file for avrDomotic v1.0
         <TimeShort ID="7" Value="30"/>
         <TimeLong ID="7" Value="198"/>
     </GeneralSettings>
-    <Historics LastDate="03.03.2012" PowerAccumulateDay="0" PowerAccumulate="5305,010555555225">
+    <Historics LastDate="05.03.2012" PowerAccumulateDay="13276,54847222407" PowerAccumulate="1766,707916666567">
         <Last30Days ID="0" Value="10000"/>
         <Last30Days ID="1" Value="10000"/>
         <Last30Days ID="2" Value="10000"/>
@@ -109,9 +109,9 @@ Configuration file for avrDomotic v1.0
         <Last30Days ID="24" Value="10000"/>
         <Last30Days ID="25" Value="10000"/>
         <Last30Days ID="26" Value="10000"/>
-        <Last30Days ID="27" Value="10000"/>
-        <Last30Days ID="28" Value="10000"/>
-        <Last30Days ID="29" Value="10284,65532499621"/>
+        <Last30Days ID="27" Value="10284,65532499621"/>
+        <Last30Days ID="28" Value="8079,960972223297"/>
+        <Last30Days ID="29" Value="5196,587500000773"/>
         <Last12Months ID="0" Value="300000"/>
         <Last12Months ID="1" Value="300000"/>
         <Last12Months ID="2" Value="300000"/>

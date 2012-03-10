@@ -36,5 +36,6 @@
         <file alias="magon">icons/mag_small_on.png</file>
         <file alias="movon">icons/mov_small_on.png</file>
         <file alias="digits">icons/train_digits.svg</file>
+        <file alias="time">icons/Time Machine 2.png</file>
     </qresource>
 </RCC>

@@ -10,6 +10,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->tabWidget,SIGNAL(currentChanged(int)),this,SLOT(updatePage()));
 
     ui->AreaP->setVisible(false);
+    ui->btnMsg->setStyleSheet("QPushButton {color: blue}");
 
     /* HOME Page */
     updatingSecurity = false;
@@ -56,8 +57,10 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->btnChangePass,SIGNAL(clicked()),this,SLOT(changePass()));
 
     /* General Config Page */
-    connect(ui->dialLong,SIGNAL(valueChanged(int)),this,SLOT(updateDialLongValue(int)));
-    connect(ui->dialShort,SIGNAL(valueChanged(int)),this,SLOT(updateDialShortValue(int)));
+    connect(ui->dialLong,SIGNAL(valueChanged(int)),
+            this,SLOT(updateDialLongValue(int)));
+    connect(ui->dialShort,SIGNAL(valueChanged(int)),
+            this,SLOT(updateDialShortValue(int)));
 
     connect(ui->btnSaveG,SIGNAL(clicked(bool)),this,SLOT(saveGeneralSettings()));
     connect(ui->btnSaveS,SIGNAL(clicked(bool)),this,SLOT(saveSecuritySettings()));
@@ -80,14 +83,22 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->chkMagSen7,SIGNAL(clicked()),this,SLOT(chkWidgetsClearFocus()));
     connect(ui->chkMagSen8,SIGNAL(clicked()),this,SLOT(chkWidgetsClearFocus()));
 
-    connect(ui->chkLigth,SIGNAL(toggled(bool)),this,SLOT(restoreTimeLigthsSettings()));
-    connect(ui->chkLigth2,SIGNAL(toggled(bool)),this,SLOT(restoreTimeLigthsSettings()));
-    connect(ui->chkLigth3,SIGNAL(toggled(bool)),this,SLOT(restoreTimeLigthsSettings()));
-    connect(ui->chkLigth4,SIGNAL(toggled(bool)),this,SLOT(restoreTimeLigthsSettings()));
-    connect(ui->chkLigth5,SIGNAL(toggled(bool)),this,SLOT(restoreTimeLigthsSettings()));
-    connect(ui->chkLigth6,SIGNAL(toggled(bool)),this,SLOT(restoreTimeLigthsSettings()));
-    connect(ui->chkLigth7,SIGNAL(toggled(bool)),this,SLOT(restoreTimeLigthsSettings()));
-    connect(ui->chkLigth8,SIGNAL(toggled(bool)),this,SLOT(restoreTimeLigthsSettings()));
+    connect(ui->chkLigth,SIGNAL(toggled(bool)),
+            this,SLOT(restoreTimeLigthsSettings()));
+    connect(ui->chkLigth2,SIGNAL(toggled(bool)),
+            this,SLOT(restoreTimeLigthsSettings()));
+    connect(ui->chkLigth3,SIGNAL(toggled(bool)),
+            this,SLOT(restoreTimeLigthsSettings()));
+    connect(ui->chkLigth4,SIGNAL(toggled(bool)),
+            this,SLOT(restoreTimeLigthsSettings()));
+    connect(ui->chkLigth5,SIGNAL(toggled(bool)),
+            this,SLOT(restoreTimeLigthsSettings()));
+    connect(ui->chkLigth6,SIGNAL(toggled(bool)),
+            this,SLOT(restoreTimeLigthsSettings()));
+    connect(ui->chkLigth7,SIGNAL(toggled(bool)),
+            this,SLOT(restoreTimeLigthsSettings()));
+    connect(ui->chkLigth8,SIGNAL(toggled(bool)),
+            this,SLOT(restoreTimeLigthsSettings()));
 
     connect(ui->chkLigth,SIGNAL(pressed()),this,SLOT(ligthPressed()));
     connect(ui->chkLigth2,SIGNAL(pressed()),this,SLOT(ligthPressed2()));
@@ -144,6 +155,8 @@ MainWindow::MainWindow(QWidget *parent) :
     firstRun = true;
     secured=true;
     securedMode=0;
+    alarmActivated=false;
+    alarmClockActivated=false;
 
     loadSettings();
     restoreSecuritySetting();
@@ -157,6 +170,16 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(serialTimer,SIGNAL(timeout()),this,SLOT(checkSerial()));
     serialTimer->start(200);
     serialCounter = 0;
+    saveCounter = 0; //10 Minutes -> 3000
+    initCounter = 0; //30 Seconds -> 150
+
+    callApp::callApp(ScreensaverInhibit,this);
+
+    /* Fuck yeah! */
+    QTextCodec *linuxCodec = QTextCodec::codecForName("UTF-8");
+    QTextCodec::setCodecForTr(linuxCodec);
+    QTextCodec::setCodecForCStrings(linuxCodec);
+    QTextCodec::setCodecForLocale(linuxCodec);
 }
 
 MainWindow::~MainWindow()
@@ -181,11 +204,11 @@ void MainWindow::closeEvent(QCloseEvent *event)
     if(ui->btnSound->isChecked())
         voiceAlert("Saliendo del programa");
 
-    //XXX This have to be removed!! ... the program should not close
+    //XXX This have to be removed!! ... the program should not be closed
 
     int r=QMessageBox::question(this,"AvrDomotic","<p><b>Realmente desea cerrar el"
-                              " programa?</b> </p> El sistema continua funcionando "
-                              "pero algunas funciones se bloquean.",
+                              " programa?</b> </p> El sistema seguirá activado "
+                              "pero algunas funciones dejarán de funcionar.",
                               QMessageBox::Yes | QMessageBox::No);
     switch (r)
     {
@@ -238,7 +261,8 @@ void MainWindow::graphMonth()
     ui->powerGraph->setTraceWidth(2);
     ui->powerGraph->setShow(false,true);
 
-    for (std::vector<double>::iterator i = powerMonth.end()-6; i< powerMonth.end();i ++)
+    for (std::vector<double>::iterator i = powerMonth.end()-6;
+         i< powerMonth.end(); i ++)
     {
          ui->powerGraph->addPoint(*i);
     }
@@ -301,12 +325,26 @@ void MainWindow::ligthPressed8()
         toogleLigth(7);
 }
 
+void MainWindow::tryToDisarmSecurity()
+{
+    ui->btnSecurity->setChecked(false);
+    updateSecurity();
+}
+
+
 void MainWindow::updateSecurity()
 {
     updatingSecurity = true;    
+
     if(checkPassword())
     {
-        uploadSecurity();
+        if(ui->btnSecurity->isChecked())
+        {
+            message(true,3);
+            initCounter = TimeToInitSecuredMode*5;
+        }
+        else
+            uploadSecurity();
     }
     else
     {
@@ -317,10 +355,12 @@ void MainWindow::updateSecurity()
 }
 
 void MainWindow::uploadSecurity()
-{    
+{
+    cmdDisarmAlarmClock();
     cmdDisarmSecurity();
     if(ui->btnSecurity->isChecked())
     {
+
         if(ui->optNigth->isChecked())
             cmdInitNigthMode();
         else
@@ -344,6 +384,7 @@ void MainWindow::screensaverOn()
 void MainWindow::screenForceOn()
 {
     callApp::callApp(ScreenForceOn,this);
+    callApp::callApp(ScreensaverPoke,this);    
 }
 
 void MainWindow::screenForceOff()
@@ -365,14 +406,86 @@ void MainWindow::updateGuiClock()
     ui->lblNote1->setEnabled(!ui->lblNote1->isEnabled());
     QTime currentTime = QTime::currentTime();
     ui->lcdClkH->setValue(currentTime.hour());
-    ui->lcdClkM->setValue(currentTime.minute());    
+    ui->lcdClkM->setValue(currentTime.minute());
+}
+
+void MainWindow::cancelSecuredMode()
+{
+    message();
+    initCounter=0;
+    ui->btnSecurity->setChecked(false);
+}
+
+void MainWindow::message(bool active, int mode)
+{
+    ui->btnMsg->disconnect();
+
+    switch(mode)
+    {
+        case 0:
+            ui->lblMsgTitle->setText("<span style=\" color:#ff5500;\">"
+                                     "¡NO HAY COMUNICACIÓN!"
+                                     "</span>");
+            ui->lblMsgText->setText("<span style=\" color:#0055ff;\">"
+                                     "Escaneando puertos... Conecte la tarjeta..."
+                                     "</span>");
+            ui->btnMsg->setVisible(false);
+            ui->lblMsgIcon->setPixmap(QPixmap(":/stop"));
+            break;
+        case 1:
+            ui->lblMsgTitle->setText("<span style=\" color:#ff5555;\">"
+                                     "¡ALARMA DE RELOJ!"
+                                     "</span>");
+            ui->lblMsgText->setText("<span style=\" color:#0055ff;\">"
+                                     "Se activó la alarma de reloj..."
+                                     "</span>");
+            ui->btnMsg->setVisible(true);                        
+            connect(ui->btnMsg,SIGNAL(clicked()),this,SLOT(cmdDisarmAlarmClock()));
+            ui->btnMsg->setText("Apagar alarma");
+            ui->btnMsg->setPalette(QPalette(QColor(0xff,0x55,0x55)));
+            ui->lblMsgIcon->setPixmap(QPixmap(":/alarm"));
+            break;
+        case 2:
+            ui->lblMsgTitle->setText("<span style=\" color:#ff0000;\">"
+                                     "¡ALARMA DE INTRUSO!"
+                                     "</span>");
+            ui->lblMsgText->setText("<span style=\" color:#0055ff;\">"
+                                     "Se activó la alarma de intruso..."
+                                     "</span>");
+            ui->btnMsg->setVisible(true);            
+            connect(ui->btnMsg,SIGNAL(clicked()),this,SLOT(tryToDisarmSecurity()));
+            ui->btnMsg->setText("Desactivar alarma");
+            ui->btnMsg->setPalette(QPalette(QColor(0xff,0,0)));
+            ui->lblMsgIcon->setPixmap(QPixmap(":/unlock"));
+            break;
+        case 3:
+            ui->lblMsgTitle->setText("<span style=\" color:#00b400;\">"
+                                     "¡ACTIVANDO MODO SEGURO!"
+                                     "</span>");
+            ui->lblMsgText->setText("<span style=\" color:#0055ff;\">"
+                                    ""
+                                    "</span>");
+            ui->btnMsg->setVisible(true);
+            connect(ui->btnMsg,SIGNAL(clicked()),this,SLOT(cancelSecuredMode()));
+            ui->btnMsg->setText("Cancelar activación");            
+            ui->lblMsgIcon->setPixmap(QPixmap(":/time"));
+            break;
+        default:
+            ui->btnMsg->setVisible(false);
+            break;
+    }
+
+    ui->planFrame->setEnabled(!active);
+    ui->tabWidget->setEnabled(!active);
+    ui->AreaP->setVisible(active);
+    repaint();
 }
 
 void MainWindow::checkSerial()
 {
     if(!QFile::exists(serialName))
     {
-        if(serialAvr->GetPortFD())
+        if(serialAvr->GetPortFD()>=0)
         {
             if(ui->btnSound->isChecked())
                 voiceAlert("Tarjeta desconectada");           
@@ -380,13 +493,10 @@ void MainWindow::checkSerial()
         } else if(serialName==defaultSerialName)
         {
             if(ui->btnSound->isChecked())
-                voiceAlert("No hay tarjeta");
+                voiceAlert("Sin comunicación");
         }
 
-        ui->planFrame->setEnabled(false);
-        ui->tabWidget->setEnabled(false);
-        ui->AreaP->setVisible(true);
-        this->update();
+        message(true);
 
         Sleeper::msleep(500);
 
@@ -403,21 +513,20 @@ void MainWindow::checkSerial()
             if(next.contains("ttyUSB"))
                 serials << next;
         }
-
+        serials.removeDuplicates();
         scanPorts();
         return;
     }
 
 
-    if( serialAvr->GetPortFD())
+    if(serialAvr->GetPortFD()>=0)
     {
         char *buf;
         unsigned char temp[64];
         int a, blen;
         a = serialAvr->ReadPort();
         if ((a & 1) == 1)
-        {
-            serialCounter = 0;
+        {            
             buf = serialAvr->GetBufer();
             blen = serialAvr->GetBytesRead();
             memcpy( temp, buf, blen );
@@ -432,8 +541,16 @@ void MainWindow::checkSerial()
             {
                 uploadGeneralSettings();
                 uploadSecuritySettings();
+
+                Sleeper::msleep(100);
+
                 if(secured)
+                {
                     uploadSecurity();
+                    if(alarmActivated)
+                        cmdTriggerAlarm();
+                    alarmActivated = false;
+                }
                 ui->lblCom->setText(QString::fromAscii(buf,blen));
                 return;
             }
@@ -471,6 +588,8 @@ void MainWindow::checkSerial()
                 ligthsState =temp[2];
 
                 bool tsecured = secured;
+                bool talarmActivated = alarmActivated;
+                bool talarmClockActivated = alarmClockActivated;
 
                 if(tbi((temp[3]),rSECURED))
                     secured = true;
@@ -487,6 +606,11 @@ void MainWindow::checkSerial()
                 else
                     alarmActivated = false;
 
+                if(tbi((temp[3]),rALARM_CLOCK_ACTIVATED))
+                    alarmClockActivated = true;
+                else
+                    alarmClockActivated = false;
+
                 if(tbi((temp[3]),rIS_NIGTH))
                     isNigth=true;
                 else
@@ -494,77 +618,100 @@ void MainWindow::checkSerial()
 
                 int temperature = (temp[4]-(273/2));
                 ui->lcdTemp->setValue(temperature);                
-                ui->lcdTemp->setBackgroundColor(QColor(temperature*6,255-temperature*6,255-temperature*6));
-                ui->lcdTemp->setBorderColor(QColor(temperature*6,255-temperature*6,255-temperature*6));
+                ui->lcdTemp->setBackgroundColor(
+                        QColor(temperature*6,255-temperature*6,255-temperature*6));
+                ui->lcdTemp->setBorderColor(
+                        QColor(temperature*6,255-temperature*6,255-temperature*6));
 
                 // (RMS)
 
-                unsigned int currentAcc = sqrt((temp[5] + (temp[6]<<8) + (temp[7]<<16))/CURRENT_SCALER);               
-                unsigned int voltageAcc = (temp[8] + (temp[9]<<8))/VOLTAGE_SCALER;
+                unsigned int currentAcc =
+                        sqrt((temp[5]+(temp[6]<<8)+(temp[7]<<16))/CURRENT_SCALER);
+                unsigned int voltageAcc =
+                        (temp[8] + (temp[9]<<8))/VOLTAGE_SCALER;
 
                 double power = (currentAcc*voltageAcc)/2.0;
 
                 //UPDATES//
+                
+                /* Security state */                
+                if(secured)
+                {
+                    if(!tsecured)
+                    {
+                        this->screenForceOff();
+                        if(ui->btnSound->isChecked())
+                            voiceAlert("Seguridad activada");
+                        this->passwordDialog->close();
+                        message();
+                        cancelSecuredMode();
+                    }
+                }
+                else
+                {
+                    if(tsecured)
+                    {
+                        this->screenForceOn();
+                        if(ui->btnSound->isChecked())
+                            voiceAlert("Seguridad desactivada");
+                        this->passwordDialog->close();
+                        message();
+                    }
+                }
 
-                //TODO: Handle the alarm activated, and alarm clock activated states!
-
-                /* Security state */
+                /* Security options state */
                 if(!updatingSecurity)
                 {
                     if(secured)
                     {
-                        if(!tsecured)
-                        {
-                            this->screenForceOff();
-                            if(ui->btnSound->isChecked())
-                                voiceAlert("Seguridad activada");                                                        
-                        }
                         ui->optNigth->setEnabled(false);
                         ui->optTravel->setEnabled(false);
                         ui->optTravel->setChecked(!securedMode);
-                        ui->btnSecurity->setChecked(true);
+                        ui->btnSecurity->setChecked(true);                        
                     }
-                    else
+                    else if (initCounter == 0) //When count down is not set
                     {
-
-                        if(tsecured)
-                        {
-                            this->screenForceOn();
-                            if(ui->btnSound->isChecked())
-                                voiceAlert("Seguridad desactivada");                            
-                        }
                         ui->optNigth->setEnabled(true);
                         ui->optTravel->setEnabled(true);
-                        ui->btnSecurity->setChecked(false);
+                        ui->btnSecurity->setChecked(false);                        
                     }
                 }
                 else
                 {
                     if(secured)
-                    {
-                        if(!tsecured)
-                        {
-                            this->screenForceOff();
-                            if(ui->btnSound->isChecked())
-                                voiceAlert("Seguridad activada");
-                            this->passwordDialog->close();
-                        }
                         ui->optTravel->setChecked(!securedMode);
+                }
+
+                /* Alarms state */
+                if(talarmActivated != alarmActivated)
+                {
+                    if(alarmActivated)
+                    {
+                        if(ui->btnSound->isChecked())
+                            voiceAlert("Alarma de intruso activada");
+                        message(true,2);
+                        this->screenForceOn();
                     }
                     else
+                        message();
+                }
+                else if(talarmClockActivated != alarmClockActivated)
+                {
+                    if(alarmClockActivated)
                     {
-
-                        if(tsecured)
-                        {
-                            this->screenForceOn();
-                            if(ui->btnSound->isChecked())
-                                voiceAlert("Seguridad desactivada");
-                            this->passwordDialog->close();
-                        }
+                        if(ui->btnSound->isChecked())
+                            voiceAlert("Alarma de reloj activada");
+                        if(initCounter==150)
+                            message(true,1);
+                        this->screenForceOn();
                     }
-                }                
+                    else
+                        message();
+                }
 
-                /* Power accumulators */
+
+
+                /* Power measure and historics */
                 if(ui->optMin->isChecked() && ui->tabWidget->currentIndex()==1)
                 {
                     ui->powerGraph->addPoint((int)power);
@@ -590,6 +737,20 @@ void MainWindow::checkSerial()
                         graphDay();
                     }
 
+                    if(currentDate.day() == readDay)
+                    {
+                        //New month!!
+                        powerMonth.push_back(powerAccDay);
+                        powerMonth.erase(powerMonth.begin());
+                        powerAccDay = 0;
+
+                        if(ui->optMonth->isChecked() &&
+                           ui->tabWidget->currentIndex()==1)
+                        {
+                            graphMonth();
+                        }
+                    }
+
                     ui->lcdMonth->setValue(powerAccDay/1000);
                     saveSettings();
                 }
@@ -597,72 +758,70 @@ void MainWindow::checkSerial()
                 ui->lcdMonth->setValue((powerAccDay+powerAcc)/1000);
                 ui->lcdPay->setValue(kwhPrice*(powerAccDay+powerAcc)/1000);
 
-                if(currentDate.month() != lastDate.month())
-                {
-                    //New day!!
-                    powerMonth.push_back(powerAccDay);
-                    powerMonth.erase(powerMonth.begin());
-                    powerAccDay = 0;
-
-                    if(ui->optMonth->isChecked() && ui->tabWidget->currentIndex()==1)
-                    {
-                        graphMonth();
-                    }
-                }
-
                 lastDate = currentDate;
                 ui->lcdDay->setValue((int)powerAcc);
             }
             else
             {
-                //serialAvr->Flush();
+                serialAvr->Flush();
             }
+
+            serialCounter = 0;
         }
         else
         {
             serialCounter++;
             if(serialCounter==20)
             {
-                //4 Seconds with no data received
+                //4 Seconds without data received
+                message();
                 passwordDialog->close();
                 serialName = ""; // Close the port!
+                serialCounter = 0;
             }
         }
     }
     else
     {
         if(serialAvr->OpenPort(serialName.toAscii().data(),B57600))
-        {            
-            serialCounter = 0;
-            Sleeper::msleep(500);
-            uploadSecuritySettings();
-            uploadGeneralSettings();
+        {
+            serialAvr->Flush();
+            Sleeper::msleep(500);            
 
             printf("Serial opened. [%d]", serialAvr->GetPortFD());
 
             if(cmdEchoTest())
-            {
+            {                
+                uploadSecuritySettings();
+                uploadGeneralSettings();
+
+                Sleeper::msleep(100);
+
                 if(ui->btnSound->isChecked())
                     voiceAlert("Conectado");
 
                 if(secured)
-                    this->uploadSecurity();
+                {
+                    uploadSecurity();
+                    if(alarmActivated)
+                        cmdTriggerAlarm();
+                    alarmActivated = false;
+                }
+
+                message();
+                return;
             }
             else
             {
                 if(ui->btnSound->isChecked())
-                    voiceAlert("No hay tarjeta");
+                    voiceAlert("Sin respuesta");
                 else
                     QMessageBox::critical(this,"Error","La tarjeta no responde "
                                           "a los comandos enviados. Verifique el"
                                           " cable.");
                 scanPorts();
                 return;
-            }
-
-            ui->planFrame->setEnabled(true);
-            ui->tabWidget->setEnabled(true);            
-            ui->AreaP->setVisible(false);
+            }            
         }
         else
         {
@@ -675,18 +834,46 @@ void MainWindow::checkSerial()
             return;
         }
     }
+
+    //Time to save
+    saveCounter++;
+    if(saveCounter>TimeToAutoSaveSettings*5*60)
+    {
+        //10 Minutes
+        saveCounter = 0;
+        saveSettings();
+    }
+
+    //Countdown to init security
+    if(initCounter > 0)
+    {                
+        if(initCounter==1)
+        {
+            message();
+            uploadSecurity();
+        }
+        else
+        {            
+            ui->lblMsgText->setText("<span style=\" color:#0055ff;\">"
+                                    "El modo seguro se activará en :" +
+                                    QString::number((int)initCounter/5) +
+                                    " segundos ... </span>");
+        }
+        initCounter --;
+    }
 }
 
 void MainWindow::scanPorts()
-{    
+{
+    Sleeper::msleep(1000);
+
     serialAvr->ClosePort();
     if(serials.size())
         serialName = serials.takeFirst();
     else
         serialName = "";
-
-    Sleeper::msleep(1000);
 }
+
 
 
 void MainWindow::updateDialShortValue(int value)
@@ -859,8 +1046,7 @@ int MainWindow::loadSettings()
             readDay=element.attribute("ReadDay").toInt();
 
             ui->btnSound->setChecked(element.attribute("SoundOn").toInt());
-        }
-        //HERE
+        }        
         else if(element.tagName()=="Historics")
         {
             for (QDomNode node = element.firstChild() ;
@@ -906,6 +1092,7 @@ void MainWindow::saveSecuritySettings()
 
 void MainWindow::saveGeneralSettings()
 {
+    cmdDisarmAlarmClock();
     restoreTimeLigthsSettings();
     chkWidgetsClearFocus();
     getGeneralSettings();
@@ -2025,27 +2212,28 @@ void MainWindow::setGeneralMask()
 }
 
 int MainWindow::cmdEchoTest()
-{
+{    
     serialAvr->Flush(); //Clean the buffer
-
-    sentDataFrame(char(CMD_ECHO_TEST),'X');
 
     char *buf;
     unsigned char temp[64];
     int a, blen,i=5;
 
     while(i>0)
-    {
-        Sleeper::msleep(20);
+    {        
+        sentDataFrame(char(CMD_ECHO_TEST),'X');
+
+        Sleeper::msleep(50);
+
         a = serialAvr->ReadPort();
         if ((a & 1) == 1)
         {
             buf = serialAvr->GetBufer();
             blen = serialAvr->GetBytesRead();
             memcpy( temp, buf, blen );
-            if(temp[0]=='X' && blen == 1)
+            if(temp[0]=='X')
              return 1;                         
-        }
+        }       
         i--;        
     }
     return 0;

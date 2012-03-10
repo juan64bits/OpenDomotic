@@ -1814,7 +1814,7 @@
          </property>
          <property name="maximumSize">
           <size>
-           <width>132</width>
+           <width>160</width>
            <height>132</height>
           </size>
          </property>
@@ -1826,7 +1826,7 @@
           </font>
          </property>
          <property name="text">
-          <string>6:00 AM</string>
+          <string>12:00 AM</string>
          </property>
          <property name="icon">
           <iconset resource="icons.qrc">
@@ -2575,7 +2575,7 @@ Tono</string>
         <set>Qt::AlignCenter</set>
        </property>
        <property name="maximum">
-        <number>30</number>
+        <number>28</number>
        </property>
        <property name="value">
         <number>15</number>
@@ -3347,10 +3347,10 @@ clave de seguridad</string>
    <widget class="QScrollArea" name="AreaP">
     <property name="geometry">
      <rect>
-      <x>222</x>
-      <y>80</y>
-      <width>581</width>
-      <height>461</height>
+      <x>102</x>
+      <y>30</y>
+      <width>821</width>
+      <height>541</height>
      </rect>
     </property>
     <property name="verticalScrollBarPolicy">
@@ -3367,13 +3367,40 @@ clave de seguridad</string>
       <rect>
        <x>0</x>
        <y>0</y>
-       <width>581</width>
-       <height>459</height>
+       <width>819</width>
+       <height>539</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
-       <widget class="QLabel" name="label_15">
+       <widget class="QLabel" name="lblMsgTitle">
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>60</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Arial</family>
+          <pointsize>26</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>&lt;TITULO&gt;</string>
+        </property>
+        <property name="textFormat">
+         <enum>Qt::AutoText</enum>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="lblMsgIcon">
         <property name="text">
          <string/>
         </property>
@@ -3386,32 +3413,60 @@ clave de seguridad</string>
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="label_14">
+       <widget class="QLabel" name="lblMsgText">
         <property name="maximumSize">
          <size>
           <width>16777215</width>
-          <height>120</height>
+          <height>60</height>
          </size>
         </property>
         <property name="font">
          <font>
           <family>Arial</family>
-          <pointsize>14</pointsize>
-          <weight>75</weight>
-          <bold>true</bold>
+          <pointsize>26</pointsize>
+          <weight>50</weight>
+          <italic>true</italic>
+          <bold>false</bold>
          </font>
         </property>
         <property name="text">
          <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Arial'; font-size:14pt; font-weight:600; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Sans'; font-size:28pt; color:#ff5500;&quot;&gt;¡ NO HAY COMUNICACIÓN !&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Sans'; font-size:20pt; font-weight:400; font-style:italic; color:#00007f;&quot;&gt;Vuelva a conectar la tarjeta...&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Sans'; font-size:20pt; font-weight:400;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Sans'; font-size:17pt; font-weight:400; font-style:italic;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Información &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="textFormat">
+         <enum>Qt::AutoText</enum>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btnMsg">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>100</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>24</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>OK</string>
         </property>
        </widget>
       </item>

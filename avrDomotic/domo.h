@@ -90,7 +90,7 @@ struct avrTime
 #define CMD_TURN_OFF_LIGTHS   108   // [START][108][END]
 #define CMD_DISARM_ALARM_CLOCK 109  // [START][109][END]
 
-/* Notes */
+/* Notes */                                 
 #define NOTE_B0  31
 #define NOTE_C1  33
 #define NOTE_CS1 35
@@ -179,8 +179,9 @@ struct avrTime
 #define NOTE_C8  4186
 #define NOTE_CS8 4435
 #define NOTE_D8  4699
-#define NOTE_DS8 4978
+#define NOTE_DS8 4978                                  
 
+//TODO Compose better melodies :D
 const int sirenNotes1[13] = {   0       ,
                                   NOTE_C5 ,
                                   NOTE_CS5,
@@ -194,14 +195,14 @@ const int sirenNotes1[13] = {   0       ,
                                   NOTE_A5 ,
                                   NOTE_AS5,
                                   NOTE_B5    };
-                                  
+
 const int sirenNotes2[4] = {      0 ,
                                   NOTE_A5 ,
                                   0 ,
-                                  NOTE_A4 };  
-                                  
+                                  NOTE_A4 };
+
 const int sirenNotes3[5] = {      0 ,
                                   NOTE_C5 ,
                                   0 ,
                                   NOTE_C7 ,
-                                  0    };                                 
+                                  0    };

@@ -16,9 +16,14 @@ class Ui_PasswordDialog;
 
 #define defaultSerialName "/dev/ttyUSB2"
 
-#define ScreensaverOn   "gnome-screensaver-command -a"
-#define ScreenForceOn   "xset dpms force on"
-#define ScreenForceOff  "xset dpms force off"
+#define ScreensaverOn           "gnome-screensaver-command -a"
+#define ScreensaverPoke         "gnome-screensaver-command -p"
+#define ScreensaverInhibit      "gnome-screensaver-command -i"
+#define ScreenForceOn           "xset dpms force on"
+#define ScreenForceOff          "xset dpms force off"
+#define OpenMusicPlayer         ""
+#define TimeToInitSecuredMode   30 //Seconds
+#define TimeToAutoSaveSettings  10 //MInutes
 
 #include <QThread>
 
@@ -49,6 +54,7 @@ private slots:
     void checkSerial();    
 
     void updatePage();
+    void tryToDisarmSecurity();
     void updateSecurity();
     void uploadSecurity();
 
@@ -60,13 +66,15 @@ private slots:
 
     void voiceAlert(QString);
 
+    void message(bool active=false, int mode = 0);
+
     void chkWidgetsSetCheckable(bool);
     void chkWidgetsSetChecked(bool);
     void chkWidgetsSetEnable(bool);
     void chkWidgetsClearFocus();
     void chkLigthWidgetsSetExclusiveCheckable(bool);
 
-    void chkWidgetsDefaultIcon();
+    void chkWidgetsDefaultIcon();        
 
     /* Energy */
     void graphMin();
@@ -86,6 +94,8 @@ private slots:
 
     void unlockPageS();
     void changePass();
+
+    void cancelSecuredMode();
 
     void restoreSecuritySetting();
     void restoreNigthSettings();
@@ -248,6 +258,8 @@ private:
     QString serialName;
     QStringList serials;
     int serialCounter;
+    int saveCounter;
+    int initCounter;
 
     double powerAcc;
     double powerAccDay;
@@ -271,7 +283,7 @@ private:
     bool buttonOkPresed;
 
     /* Others */
-
+    
 };
 
 #endif // MAINWINDOW_H
