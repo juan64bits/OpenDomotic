@@ -76,7 +76,7 @@
   <valuemap type="QVariantMap">
    <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Debug</value>
    <valuelist key="abstractProcess.Environment" type="QVariantList">
-    <value type="QString">DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-UYHMCFYkF0,guid=10fb1175790b88a5f147071c4f5559e0</value>
+    <value type="QString">DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-LLGe9uebG3,guid=160bdd4142ce3c95b907ff874f67b2da</value>
     <value type="QString">DEFAULTS_PATH=/usr/share/gconf/gnome.default.path</value>
     <value type="QString">DESKTOP_SESSION=gnome</value>
     <value type="QString">DISPLAY=:0.0</value>
@@ -84,7 +84,7 @@
     <value type="QString">GDM_KEYBOARD_LAYOUT=es</value>
     <value type="QString">GDM_LANG=es_CO.utf8</value>
     <value type="QString">GNOME_DESKTOP_SESSION_ID=this-is-deprecated</value>
-    <value type="QString">GNOME_KEYRING_CONTROL=/tmp/keyring-DkVRA0</value>
+    <value type="QString">GNOME_KEYRING_CONTROL=/tmp/keyring-s45ca0</value>
     <value type="QString">GTK_MODULES=canberra-gtk-module:gail:atk-bridge</value>
     <value type="QString">HOME=/home/juan64bits</value>
     <value type="QString">LANG=es_CO.utf8</value>
@@ -96,17 +96,17 @@
     <value type="QString">PATH=/usr/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games</value>
     <value type="QString">PWD=/home/juan64bits</value>
     <value type="QString">QTDIR=/usr/share/qt4</value>
-    <value type="QString">SESSION_MANAGER=local/Maximus:@/tmp/.ICE-unix/1557,unix/Maximus:/tmp/.ICE-unix/1557</value>
+    <value type="QString">SESSION_MANAGER=local/Maximus:@/tmp/.ICE-unix/1530,unix/Maximus:/tmp/.ICE-unix/1530</value>
     <value type="QString">SHELL=/bin/bash</value>
     <value type="QString">SPEECHD_PORT=7560</value>
-    <value type="QString">SSH_AGENT_PID=1764</value>
-    <value type="QString">SSH_AUTH_SOCK=/tmp/keyring-DkVRA0/ssh</value>
+    <value type="QString">SSH_AGENT_PID=1569</value>
+    <value type="QString">SSH_AUTH_SOCK=/tmp/keyring-s45ca0/ssh</value>
     <value type="QString">USER=juan64bits</value>
     <value type="QString">USERNAME=juan64bits</value>
-    <value type="QString">XAUTHORITY=/var/run/gdm/auth-for-juan64bits-jBnTeO/database</value>
+    <value type="QString">XAUTHORITY=/var/run/gdm/auth-for-juan64bits-ul5BVw/database</value>
     <value type="QString">XDG_CONFIG_DIRS=/etc/xdg/xdg-gnome:/etc/xdg</value>
     <value type="QString">XDG_DATA_DIRS=/usr/share/gnome:/usr/local/share/:/usr/share/</value>
-    <value type="QString">XDG_SESSION_COOKIE=b9a7fbc4d869fc15bd6cdd474bcc9a28-1330993631.306818-604826882</value>
+    <value type="QString">XDG_SESSION_COOKIE=b9a7fbc4d869fc15bd6cdd474bcc9a28-1332196057.638164-1731810236</value>
    </valuelist>
    <valuelist key="abstractProcess.arguments" type="QVariantList">
     <value type="QString">/home/juan64bits/Documents/OpenDomotic/avrDomotic_QT/avrDomotic.pro</value>
@@ -125,7 +125,7 @@
   <valuemap type="QVariantMap">
    <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Debug</value>
    <valuelist key="abstractProcess.Environment" type="QVariantList">
-    <value type="QString">DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-UYHMCFYkF0,guid=10fb1175790b88a5f147071c4f5559e0</value>
+    <value type="QString">DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-LLGe9uebG3,guid=160bdd4142ce3c95b907ff874f67b2da</value>
     <value type="QString">DEFAULTS_PATH=/usr/share/gconf/gnome.default.path</value>
     <value type="QString">DESKTOP_SESSION=gnome</value>
     <value type="QString">DISPLAY=:0.0</value>
@@ -133,7 +133,7 @@
     <value type="QString">GDM_KEYBOARD_LAYOUT=es</value>
     <value type="QString">GDM_LANG=es_CO.utf8</value>
     <value type="QString">GNOME_DESKTOP_SESSION_ID=this-is-deprecated</value>
-    <value type="QString">GNOME_KEYRING_CONTROL=/tmp/keyring-DkVRA0</value>
+    <value type="QString">GNOME_KEYRING_CONTROL=/tmp/keyring-s45ca0</value>
     <value type="QString">GTK_MODULES=canberra-gtk-module:gail:atk-bridge</value>
     <value type="QString">HOME=/home/juan64bits</value>
     <value type="QString">LANG=es_CO.utf8</value>
@@ -145,17 +145,17 @@
     <value type="QString">PATH=/usr/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games</value>
     <value type="QString">PWD=/home/juan64bits</value>
     <value type="QString">QTDIR=/usr/share/qt4</value>
-    <value type="QString">SESSION_MANAGER=local/Maximus:@/tmp/.ICE-unix/1557,unix/Maximus:/tmp/.ICE-unix/1557</value>
+    <value type="QString">SESSION_MANAGER=local/Maximus:@/tmp/.ICE-unix/1530,unix/Maximus:/tmp/.ICE-unix/1530</value>
     <value type="QString">SHELL=/bin/bash</value>
     <value type="QString">SPEECHD_PORT=7560</value>
-    <value type="QString">SSH_AGENT_PID=1764</value>
-    <value type="QString">SSH_AUTH_SOCK=/tmp/keyring-DkVRA0/ssh</value>
+    <value type="QString">SSH_AGENT_PID=1569</value>
+    <value type="QString">SSH_AUTH_SOCK=/tmp/keyring-s45ca0/ssh</value>
     <value type="QString">USER=juan64bits</value>
     <value type="QString">USERNAME=juan64bits</value>
-    <value type="QString">XAUTHORITY=/var/run/gdm/auth-for-juan64bits-jBnTeO/database</value>
+    <value type="QString">XAUTHORITY=/var/run/gdm/auth-for-juan64bits-ul5BVw/database</value>
     <value type="QString">XDG_CONFIG_DIRS=/etc/xdg/xdg-gnome:/etc/xdg</value>
     <value type="QString">XDG_DATA_DIRS=/usr/share/gnome:/usr/local/share/:/usr/share/</value>
-    <value type="QString">XDG_SESSION_COOKIE=b9a7fbc4d869fc15bd6cdd474bcc9a28-1330993631.306818-604826882</value>
+    <value type="QString">XDG_SESSION_COOKIE=b9a7fbc4d869fc15bd6cdd474bcc9a28-1332196057.638164-1731810236</value>
    </valuelist>
    <value key="abstractProcess.IgnoreReturnValue" type="bool">false</value>
    <valuelist key="abstractProcess.arguments" type="QVariantList">

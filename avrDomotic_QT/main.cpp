@@ -20,5 +20,6 @@ int main(int argc, char *argv[])
     MainWindow w;
     //w.showFullScreen();
     w.show();
+    w.setGeometry(0,0,1024,600);
     return a.exec();
 }

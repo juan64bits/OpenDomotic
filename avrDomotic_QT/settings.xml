@@ -1,5 +1,5 @@
 <!--
-Configuration file for avrDomotic v1.0
+Configuration file for avrDomotic v0.1
 -->
 <Settings>
     <NigthSettings Tone="1" Ligths="1" LEDs="1" LigthsOff="1" Call="0" Siren="1">
@@ -7,28 +7,28 @@ Configuration file for avrDomotic v1.0
         <MovSensor ID="1" Value="0"/>
         <MovSensor ID="2" Value="0"/>
         <MovSensor ID="3" Value="0"/>
-        <MovSensor ID="4" Value="0"/>
+        <MovSensor ID="4" Value="1"/>
         <MovSensor ID="5" Value="0"/>
         <MovSensor ID="6" Value="0"/>
         <MovSensor ID="7" Value="0"/>
-        <MagSensor ID="0" Value="0"/>
-        <MagSensor ID="1" Value="0"/>
-        <MagSensor ID="2" Value="0"/>
-        <MagSensor ID="3" Value="0"/>
-        <MagSensor ID="4" Value="0"/>
+        <MagSensor ID="0" Value="1"/>
+        <MagSensor ID="1" Value="1"/>
+        <MagSensor ID="2" Value="1"/>
+        <MagSensor ID="3" Value="1"/>
+        <MagSensor ID="4" Value="1"/>
         <MagSensor ID="5" Value="0"/>
         <MagSensor ID="6" Value="0"/>
         <MagSensor ID="7" Value="0"/>
-        <Ligth ID="0" Value="0"/>
+        <Ligth ID="0" Value="1"/>
         <Ligth ID="1" Value="0"/>
         <Ligth ID="2" Value="0"/>
         <Ligth ID="3" Value="0"/>
         <Ligth ID="4" Value="0"/>
         <Ligth ID="5" Value="0"/>
         <Ligth ID="6" Value="0"/>
-        <Ligth ID="7" Value="0"/>
+        <Ligth ID="7" Value="1"/>
     </NigthSettings>
-    <TravelSettings Tone="1" Ligths="1" LEDs="1" LigthsOff="1" Call="1" Siren="1">
+    <TravelSettings Tone="1" Ligths="1" LEDs="0" LigthsOff="1" Call="1" Siren="1">
         <MovSensor ID="0" Value="1"/>
         <MovSensor ID="1" Value="1"/>
         <MovSensor ID="2" Value="1"/>
@@ -45,23 +45,23 @@ Configuration file for avrDomotic v1.0
         <MagSensor ID="5" Value="1"/>
         <MagSensor ID="6" Value="1"/>
         <MagSensor ID="7" Value="1"/>
-        <Ligth ID="0" Value="1"/>
-        <Ligth ID="1" Value="1"/>
-        <Ligth ID="2" Value="1"/>
-        <Ligth ID="3" Value="1"/>
-        <Ligth ID="4" Value="1"/>
-        <Ligth ID="5" Value="1"/>
-        <Ligth ID="6" Value="1"/>
-        <Ligth ID="7" Value="1"/>
+        <Ligth ID="0" Value="0"/>
+        <Ligth ID="1" Value="0"/>
+        <Ligth ID="2" Value="0"/>
+        <Ligth ID="3" Value="0"/>
+        <Ligth ID="4" Value="0"/>
+        <Ligth ID="5" Value="0"/>
+        <Ligth ID="6" Value="0"/>
+        <Ligth ID="7" Value="0"/>
     </TravelSettings>
-    <PassSettings Pass="6245" Protected="1"/>
-    <GeneralSettings TimeAlarmOn="1" TimeNigthEnd="06:00 AM" SoundOn="1" TimeNigthInit="05:30 PM" AlarmSiren="1" NigthManual="1" TimeAlarm="04:47 PM" AlarmLigths="1" kWhPrice="641" ReadDay="15">
+    <PassSettings Pass="AwLPgSLt3RIi" Protected="1"/>
+    <GeneralSettings TimeAlarmOn="1" TimeNigthEnd="06:00 AM" SoundOn="1" TimeNigthInit="05:30 PM" AlarmSiren="1" NigthManual="0" TimeAlarm="07:33 PM" AlarmLigths="1" kWhPrice="644" ReadDay="15">
         <SensorOn ID="0" Value="1"/>
-        <TimeShort ID="0" Value="30"/>
-        <TimeLong ID="0" Value="15"/>
+        <TimeShort ID="0" Value="15"/>
+        <TimeLong ID="0" Value="0"/>
         <SensorOn ID="1" Value="1"/>
         <TimeShort ID="1" Value="10"/>
-        <TimeLong ID="1" Value="191"/>
+        <TimeLong ID="1" Value="0"/>
         <SensorOn ID="2" Value="1"/>
         <TimeShort ID="2" Value="10"/>
         <TimeLong ID="2" Value="15"/>
@@ -71,17 +71,17 @@ Configuration file for avrDomotic v1.0
         <SensorOn ID="4" Value="1"/>
         <TimeShort ID="4" Value="10"/>
         <TimeLong ID="4" Value="15"/>
-        <SensorOn ID="5" Value="1"/>
+        <SensorOn ID="5" Value="0"/>
         <TimeShort ID="5" Value="30"/>
-        <TimeLong ID="5" Value="15"/>
+        <TimeLong ID="5" Value="240"/>
         <SensorOn ID="6" Value="1"/>
         <TimeShort ID="6" Value="10"/>
-        <TimeLong ID="6" Value="15"/>
+        <TimeLong ID="6" Value="0"/>
         <SensorOn ID="7" Value="1"/>
         <TimeShort ID="7" Value="30"/>
         <TimeLong ID="7" Value="198"/>
     </GeneralSettings>
-    <Historics LastDate="05.03.2012" PowerAccumulateDay="13276,54847222407" PowerAccumulate="1766,707916666567">
+    <Historics LastDate="19.03.2012" PowerAccumulateDay="15043,32638889064" PowerAccumulate="2580,221944444396">
         <Last30Days ID="0" Value="10000"/>
         <Last30Days ID="1" Value="10000"/>
         <Last30Days ID="2" Value="10000"/>
@@ -108,10 +108,10 @@ Configuration file for avrDomotic v1.0
         <Last30Days ID="23" Value="10000"/>
         <Last30Days ID="24" Value="10000"/>
         <Last30Days ID="25" Value="10000"/>
-        <Last30Days ID="26" Value="10000"/>
-        <Last30Days ID="27" Value="10284,65532499621"/>
-        <Last30Days ID="28" Value="8079,960972223297"/>
-        <Last30Days ID="29" Value="5196,587500000773"/>
+        <Last30Days ID="26" Value="10284,65532499621"/>
+        <Last30Days ID="27" Value="8079,960972223297"/>
+        <Last30Days ID="28" Value="5196,587500000773"/>
+        <Last30Days ID="29" Value="1766,777916666567"/>
         <Last12Months ID="0" Value="300000"/>
         <Last12Months ID="1" Value="300000"/>
         <Last12Months ID="2" Value="300000"/>

@@ -5,12 +5,138 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-    ui->setupUi(this);       
-
+    ui->setupUi(this);
     connect(ui->tabWidget,SIGNAL(currentChanged(int)),this,SLOT(updatePage()));
-
-    ui->AreaP->setVisible(false);
     ui->btnMsg->setStyleSheet("QPushButton {color: blue}");
+
+    ui->lblCom->setVisible(false);
+    ui->cmdTest->setVisible(false);
+
+    /* Animations States */    
+    stateHome = new QState;
+    stateMessage = new QState;
+
+    stateHome->assignProperty(ui->framePlan, "geometry", QRectF(0,0,512,600));
+    stateHome->assignProperty(ui->framePlan, "pos", QPointF(0,0));
+    stateHome->assignProperty(ui->tabWidget, "geometry", QRectF(0,0,512,600));
+    stateHome->assignProperty(ui->tabWidget, "pos", QPointF(512,0));
+    stateHome->assignProperty(ui->AreaP, "geometry", QRectF(0,0,0,0));
+    stateHome->assignProperty(ui->AreaP, "pos", QPointF(512,300));
+
+    stateMessage->assignProperty(ui->framePlan, "geometry", QRectF(0,0,0,0));
+    stateMessage->assignProperty(ui->framePlan, "pos", QPointF(-512,300));
+    stateMessage->assignProperty(ui->tabWidget, "geometry", QRectF(0,0,0,0));
+    stateMessage->assignProperty(ui->tabWidget, "pos", QPointF(1024,300));
+    stateMessage->assignProperty(ui->AreaP, "geometry", QRectF(0,0,960,536));
+    stateMessage->assignProperty(ui->AreaP, "pos", QPointF(32,32));
+
+    QParallelAnimationGroup *groupAnimation = new QParallelAnimationGroup;
+    groupAnimation->addAnimation(new QPropertyAnimation(ui->framePlan,"geometry"));
+    groupAnimation->addAnimation(new QPropertyAnimation(ui->framePlan,"pos"));
+    groupAnimation->addAnimation(new QPropertyAnimation(ui->tabWidget,"geometry"));
+    groupAnimation->addAnimation(new QPropertyAnimation(ui->tabWidget,"pos"));
+    groupAnimation->addAnimation(new QPropertyAnimation(ui->AreaP, "geometry"));
+    groupAnimation->addAnimation(new QPropertyAnimation(ui->AreaP, "pos"));
+
+    QAbstractTransition *transition;
+    transition = stateHome->addTransition(this, SIGNAL(_messageState()), stateMessage);
+    transition->addAnimation(groupAnimation);
+    transition = stateMessage->addTransition(this, SIGNAL(_homeState()), stateHome);
+    transition->addAnimation(groupAnimation);
+
+    machine = new QStateMachine;
+    machine->addState(stateHome);
+    machine->addState(stateMessage);
+    machine->setInitialState(stateMessage);
+    machine->start();
+
+    //Tab Animation
+    rootTabState = new QState;
+    cleanTabState = new QState(rootTabState);
+    homeTabState = new QState(rootTabState);
+    energyTabState = new QState(rootTabState);
+    settingsGTabState = new QState(rootTabState);
+    settingsSTabState = new QState(rootTabState);
+
+    cleanTabState->assignProperty(ui->frameHBtns1,"pos",QPointF(-512,0));
+    cleanTabState->assignProperty(ui->frameHBtns2,"pos",QPointF(512,0));
+    cleanTabState->assignProperty(ui->frameHClock,"pos",QPointF(-512,0));
+    cleanTabState->assignProperty(ui->frameHTemp,"pos",QPointF(-512,0));
+    cleanTabState->assignProperty(ui->frameHSecure,"pos",QPointF(-512,0));
+    cleanTabState->assignProperty(ui->frameEGraph,"pos",QPointF(-512,0));
+    cleanTabState->assignProperty(ui->frameEConsum,"pos",QPointF(512,0));
+    cleanTabState->assignProperty(ui->frameGAlarm,"pos",QPointF(-512,0));
+    cleanTabState->assignProperty(ui->frameGBtns,"pos",QPointF(512,0));
+    cleanTabState->assignProperty(ui->frameGKwh,"pos",QPointF(-512,0));
+    cleanTabState->assignProperty(ui->frameGLigths,"pos",QPointF(512,0));
+    cleanTabState->assignProperty(ui->frameGNigth,"pos",QPointF(512,0));
+    cleanTabState->assignProperty(ui->frameSActive,"pos",QPointF(-512,0));
+    cleanTabState->assignProperty(ui->frameSBtns,"pos",QPointF(512,0));
+    cleanTabState->assignProperty(ui->frameSMode,"pos",QPointF(512,0));
+    cleanTabState->assignProperty(ui->frameSPass,"pos",QPointF(-512,0));
+    cleanTabState->assignProperty(ui->frameSTrigger,"pos",QPointF(512,0));
+
+    homeTabState->assignProperty(ui->frameHBtns1,"pos",ui->frameHBtns1->pos());
+    homeTabState->assignProperty(ui->frameHBtns2,"pos",ui->frameHBtns2->pos());
+    homeTabState->assignProperty(ui->frameHClock,"pos",ui->frameHClock->pos());
+    homeTabState->assignProperty(ui->frameHTemp,"pos",ui->frameHTemp->pos());
+    homeTabState->assignProperty(ui->frameHSecure,"pos",ui->frameHSecure->pos());
+
+    energyTabState->assignProperty(ui->frameEGraph,"pos",ui->frameEGraph->pos());
+    energyTabState->assignProperty(ui->frameEConsum,"pos",ui->frameEConsum->pos());
+
+    settingsGTabState->assignProperty(ui->frameGAlarm,"pos",ui->frameGAlarm->pos());
+    settingsGTabState->assignProperty(ui->frameGBtns,"pos",ui->frameGBtns->pos());
+    settingsGTabState->assignProperty(ui->frameGKwh,"pos",ui->frameGKwh->pos());
+    settingsGTabState->assignProperty(ui->frameGLigths,"pos",ui->frameGLigths->pos());
+    settingsGTabState->assignProperty(ui->frameGNigth,"pos",ui->frameGNigth->pos());
+
+    settingsSTabState->assignProperty(ui->frameSActive,"pos",ui->frameSActive->pos());
+    settingsSTabState->assignProperty(ui->frameSBtns,"pos",ui->frameSBtns->pos());
+    settingsSTabState->assignProperty(ui->frameSMode,"pos",ui->frameSMode->pos());
+    settingsSTabState->assignProperty(ui->frameSPass,"pos",ui->frameSPass->pos());
+    settingsSTabState->assignProperty(ui->frameSTrigger,"pos",ui->frameSTrigger->pos());
+
+    tabMachine = new QStateMachine;
+    tabMachine->addState(rootTabState);
+    tabMachine->setInitialState(rootTabState);
+    rootTabState->setInitialState(cleanTabState);
+
+    QParallelAnimationGroup *tabAnimation = new QParallelAnimationGroup;
+    tabAnimation->addAnimation(new QPropertyAnimation(ui->frameHBtns1,"pos"));
+    tabAnimation->addAnimation(new QPropertyAnimation(ui->frameHBtns2,"pos"));
+    tabAnimation->addAnimation(new QPropertyAnimation(ui->frameHClock,"pos"));
+    tabAnimation->addAnimation(new QPropertyAnimation(ui->frameHTemp,"pos"));
+    tabAnimation->addAnimation(new QPropertyAnimation(ui->frameHSecure,"pos"));
+    tabAnimation->addAnimation(new QPropertyAnimation(ui->frameEGraph,"pos"));
+    tabAnimation->addAnimation(new QPropertyAnimation(ui->frameEConsum,"pos"));
+    tabAnimation->addAnimation(new QPropertyAnimation(ui->frameGAlarm,"pos"));
+    tabAnimation->addAnimation(new QPropertyAnimation(ui->frameGBtns,"pos"));
+    tabAnimation->addAnimation(new QPropertyAnimation(ui->frameGKwh,"pos"));
+    tabAnimation->addAnimation(new QPropertyAnimation(ui->frameGLigths,"pos"));
+    tabAnimation->addAnimation(new QPropertyAnimation(ui->frameGNigth,"pos"));
+    tabAnimation->addAnimation(new QPropertyAnimation(ui->frameSActive,"pos"));
+    tabAnimation->addAnimation(new QPropertyAnimation(ui->frameSBtns,"pos"));
+    tabAnimation->addAnimation(new QPropertyAnimation(ui->frameSMode,"pos"));
+    tabAnimation->addAnimation(new QPropertyAnimation(ui->frameSPass,"pos"));
+    tabAnimation->addAnimation(new QPropertyAnimation(ui->frameSTrigger,"pos"));
+
+    transition = rootTabState->addTransition(this, SIGNAL(_cleanTabState()), cleanTabState);
+    transition->addAnimation(tabAnimation);
+
+    transition = rootTabState->addTransition(this, SIGNAL(_homeTabState()), homeTabState);
+    transition->addAnimation(tabAnimation);
+
+    transition = rootTabState->addTransition(this, SIGNAL(_energyTabState()), energyTabState);
+    transition->addAnimation(tabAnimation);
+
+    transition = rootTabState->addTransition(this, SIGNAL(_settingsGTabState()), settingsGTabState);
+    transition->addAnimation(tabAnimation);
+
+    transition = rootTabState->addTransition(this, SIGNAL(_settingsSTabState()), settingsSTabState);
+    transition->addAnimation(tabAnimation);
+
+    tabMachine->start();
 
     /* HOME Page */
     updatingSecurity = false;
@@ -27,11 +153,12 @@ MainWindow::MainWindow(QWidget *parent) :
     updateGuiClock();
 
     ui->lcdTemp->setDigits(2);    
+    ui->lcdTemp->setValue(28);
 
     ui->lcdClkH->setDigits(2);
     ui->lcdClkH->setBorderColor(Qt::lightGray);
     ui->lcdClkM->setDigits(2);
-    ui->lcdClkM->setBorderColor(Qt::lightGray);    
+    ui->lcdClkM->setBorderColor(Qt::lightGray);        
 
     ui->lcdDay->setDigits(7);
     ui->lcdDay->setBorderColor(Qt::yellow);
@@ -113,7 +240,7 @@ MainWindow::MainWindow(QWidget *parent) :
     passwordDialog = new QDialog(this);
     passUi = new Ui_PasswordDialog;
     passUi->setupUi(passwordDialog);
-    passUi->txtPass->setEchoMode(QLineEdit::PasswordEchoOnEdit);
+    //passUi->txtPass->setEchoMode(QLineEdit::PasswordEchoOnEdit);
 
     connect(passUi->btnNum0,SIGNAL(clicked()),this,SLOT(pressed0()));
     connect(passUi->btnNum1,SIGNAL(clicked()),this,SLOT(pressed1()));
@@ -156,9 +283,10 @@ MainWindow::MainWindow(QWidget *parent) :
     secured=true;
     securedMode=0;
     alarmActivated=false;
-    alarmClockActivated=false;
+    alarmClockActivated=false;       
 
     loadSettings();
+
     restoreSecuritySetting();
     restoreGeneralSettings();
     updatePage();
@@ -175,7 +303,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
     callApp::callApp(ScreensaverInhibit,this);
 
-    /* Fuck yeah! */
+    ui->tabWidget->setCurrentIndex(0);
+    updatePage();
+
+    /* Acents ... Fuck yeah! */
     QTextCodec *linuxCodec = QTextCodec::codecForName("UTF-8");
     QTextCodec::setCodecForTr(linuxCodec);
     QTextCodec::setCodecForCStrings(linuxCodec);
@@ -340,7 +471,7 @@ void MainWindow::updateSecurity()
     {
         if(ui->btnSecurity->isChecked())
         {
-            message(true,3);
+            message(3);
             initCounter = TimeToInitSecuredMode*5;
         }
         else
@@ -396,8 +527,7 @@ void MainWindow::voiceAlert(QString text)
 {
     callApp::callApp("killall -9 espeak",this);
     Sleeper::msleep(100);
-    callApp::callApp("espeak \"" + text + "\" -v es -s 180",this);
-    Sleeper::msleep(100);
+    callApp::callApp("espeak \"" + text + "\" -v es -s 180",this);    
 }
 
 void MainWindow::updateGuiClock()
@@ -407,6 +537,7 @@ void MainWindow::updateGuiClock()
     QTime currentTime = QTime::currentTime();
     ui->lcdClkH->setValue(currentTime.hour());
     ui->lcdClkM->setValue(currentTime.minute());
+    ui->btnAlarm->setText(ui->timeAlarm->time().toString("hh:mm AP"));
 }
 
 void MainWindow::cancelSecuredMode()
@@ -416,9 +547,15 @@ void MainWindow::cancelSecuredMode()
     ui->btnSecurity->setChecked(false);
 }
 
-void MainWindow::message(bool active, int mode)
+void MainWindow::message(int mode)
 {
+    if(mode < 0)
+        emit _homeState();
+    else
+        emit _messageState();
+
     ui->btnMsg->disconnect();
+    callApp::callApp(ScreensaverPoke,this);
 
     switch(mode)
     {
@@ -472,17 +609,23 @@ void MainWindow::message(bool active, int mode)
             break;
         default:
             ui->btnMsg->setVisible(false);
+            ui->framePlan->setEnabled(true);
+            ui->tabWidget->setEnabled(true);
             break;
-    }
-
-    ui->planFrame->setEnabled(!active);
-    ui->tabWidget->setEnabled(!active);
-    ui->AreaP->setVisible(active);
+    }    
     repaint();
 }
 
 void MainWindow::checkSerial()
 {
+    if(firstRun)
+    {
+        emit _cleanTabState();
+        emit _homeTabState();
+        firstRun = false;
+    }
+
+
     if(!QFile::exists(serialName))
     {
         if(serialAvr->GetPortFD()>=0)
@@ -496,8 +639,7 @@ void MainWindow::checkSerial()
                 voiceAlert("Sin comunicación");
         }
 
-        message(true);
-
+        message(0);
         Sleeper::msleep(500);
 
         /* Folder scanning */
@@ -617,11 +759,14 @@ void MainWindow::checkSerial()
                     isNigth = false;
 
                 int temperature = (temp[4]-(273/2));
-                ui->lcdTemp->setValue(temperature);                
-                ui->lcdTemp->setBackgroundColor(
-                        QColor(temperature*6,255-temperature*6,255-temperature*6));
-                ui->lcdTemp->setBorderColor(
-                        QColor(temperature*6,255-temperature*6,255-temperature*6));
+                if(temperature>0 && temperature<99)
+                {
+                    ui->lcdTemp->setValue(temperature);
+                    ui->lcdTemp->setBackgroundColor(
+                            QColor(temperature*6,255-temperature*6,255-temperature*6));
+                    ui->lcdTemp->setBorderColor(
+                            QColor(temperature*6,255-temperature*6,255-temperature*6));
+                }
 
                 // (RMS)
 
@@ -643,7 +788,7 @@ void MainWindow::checkSerial()
                         if(ui->btnSound->isChecked())
                             voiceAlert("Seguridad activada");
                         this->passwordDialog->close();
-                        message();
+                        message();                        
                         cancelSecuredMode();
                     }
                 }
@@ -689,7 +834,7 @@ void MainWindow::checkSerial()
                     {
                         if(ui->btnSound->isChecked())
                             voiceAlert("Alarma de intruso activada");
-                        message(true,2);
+                        message(2);
                         this->screenForceOn();
                     }
                     else
@@ -701,8 +846,8 @@ void MainWindow::checkSerial()
                     {
                         if(ui->btnSound->isChecked())
                             voiceAlert("Alarma de reloj activada");
-                        if(initCounter==150)
-                            message(true,1);
+                        if(initCounter==0)
+                            message(1);
                         this->screenForceOn();
                     }
                     else
@@ -774,7 +919,7 @@ void MainWindow::checkSerial()
             if(serialCounter==20)
             {
                 //4 Seconds without data received
-                message();
+                message();                
                 passwordDialog->close();
                 serialName = ""; // Close the port!
                 serialCounter = 0;
@@ -786,7 +931,7 @@ void MainWindow::checkSerial()
         if(serialAvr->OpenPort(serialName.toAscii().data(),B57600))
         {
             serialAvr->Flush();
-            Sleeper::msleep(500);            
+            Sleeper::msleep(1500); //Wait to avr setup
 
             printf("Serial opened. [%d]", serialAvr->GetPortFD());
 
@@ -816,7 +961,7 @@ void MainWindow::checkSerial()
                 if(ui->btnSound->isChecked())
                     voiceAlert("Sin respuesta");
                 else
-                    QMessageBox::critical(this,"Error","La tarjeta no responde "
+                    printf("La tarjeta no responde "
                                           "a los comandos enviados. Verifique el"
                                           " cable.");
                 scanPorts();
@@ -827,9 +972,6 @@ void MainWindow::checkSerial()
         {
             if(ui->btnSound->isChecked())
                 voiceAlert("Puerto ocupado");
-            else
-                QMessageBox::critical(this,"Error","El recurso parece estar bloqueado."
-                                     "Por favor seleccione otro puerto.");
             scanPorts();
             return;
         }
@@ -918,21 +1060,21 @@ void MainWindow::updateDialLongValue(int value)
 int MainWindow::loadSettings()
 {
     QDomDocument settingsDoc;
-    QFile file("settings.xml");
-    if(file.open(QIODevice::ReadOnly | QIODevice::Text))
+    QFile file(SettingsFileName);
+    if(file.open(QIODevice::ReadOnly))
     {
         bool parsing=settingsDoc.setContent(&file);
-        file.close();
+
         if(!parsing)
         {
-            QMessageBox::warning(this,"Parsing warning","Invalid or void "
-                                 " element found in file.");
-            //return 0;
+            QMessageBox::warning(this,"Alerta","Archivo de config. no se "
+                                 "pudo cargar correctamente");            
         }
+
+        file.close();
     }
     else
-    {
-        QMessageBox::critical(this,"Error","Could not open file for read.");
+    {        
         return 0;
     }
 
@@ -1008,8 +1150,10 @@ int MainWindow::loadSettings()
         }
         else if(element.tagName()=="PassSettings")
         {
-            passActive=element.attribute("Protected").toInt();
-            pass=element.attribute("Pass"); // TODO encript password
+            passActive=element.attribute("Protected").toInt();            
+            pass=element.attribute("Pass");
+            SimpleCrypt crypto(CryptoKey);
+            pass = crypto.decryptToString(pass);
         }
         else if(element.tagName()=="GeneralSettings")
         {
@@ -1141,7 +1285,7 @@ int MainWindow::saveSettings()
     QDomElement element;
 
     QDomComment initialComments=settingsDoc.createComment(
-        "\nConfiguration file for avrDomotic v1.0\n");
+        "\nConfiguration file for avrDomotic v0.1\n");
     settingsDoc.appendChild(initialComments);
 
     settings = settingsDoc.createElement("Settings");
@@ -1214,8 +1358,9 @@ int MainWindow::saveSettings()
 
     /* Pass Settings */
     passSettings = settingsDoc.createElement("PassSettings");
-    passSettings.setAttribute("Protected",passActive);
-    passSettings.setAttribute("Pass",pass);     // TODO: encript the password
+    passSettings.setAttribute("Protected",passActive);    
+    SimpleCrypt crypto(CryptoKey);
+    passSettings.setAttribute("Pass",crypto.encryptToString(pass));
 
     settings.appendChild(passSettings);
 
@@ -1277,7 +1422,7 @@ int MainWindow::saveSettings()
     settings.appendChild(historics);
 
     /* SAVE */
-    QFile file("settings.xml");
+    QFile file(SettingsFileName);
     if(file.open(QIODevice::WriteOnly | QIODevice::Text))
     {
         QTextStream out(&file);
@@ -1286,14 +1431,14 @@ int MainWindow::saveSettings()
         file.close();
         return 1;
     }
-    else
-        QMessageBox::critical(this,"Error","Could not open file for write.");
     return 0;
 }
 
 void MainWindow::updatePage()
 
 {
+    emit _cleanTabState();
+
     if(ui->tabWidget->currentIndex()==0 || ui->tabWidget->currentIndex()==1)
     {
         chkWidgetsSetChecked(false);
@@ -1301,9 +1446,12 @@ void MainWindow::updatePage()
         chkWidgetsSetCheckable(false);
         chkWidgetsClearFocus();
         ui->btnAlarm->setChecked(timeAlarmOn);
-
         ui->optMin->setChecked(true);
         graphMin();
+        if(ui->tabWidget->currentIndex()==0)
+            emit _homeTabState();
+        else
+            emit _energyTabState();
     }
     else if(ui->tabWidget->currentIndex()==2)
     {
@@ -1311,7 +1459,8 @@ void MainWindow::updatePage()
         chkWidgetsSetEnable(false);
         chkLigthWidgetsSetExclusiveCheckable(true);
         chkWidgetsClearFocus();
-        this->restoreGeneralSettings();        
+        this->restoreGeneralSettings();
+        emit _settingsGTabState();
     }
     else if(ui->tabWidget->currentIndex()==3)
     {
@@ -1319,7 +1468,8 @@ void MainWindow::updatePage()
         chkWidgetsSetCheckable(true);
         chkWidgetsClearFocus();
         chkWidgetsSetChecked(false);
-        restorePassSettings();        
+        restorePassSettings();
+        emit _settingsSTabState();
     }
 }
 
@@ -1654,8 +1804,7 @@ void MainWindow::restorePassSettings()
 {
     ui->chkPass->setChecked(passActive);
     ui->btnUnlockS->setEnabled(true);
-    ui->frameS1->setEnabled(false);
-    ui->frameS2->setEnabled(false);
+    ui->frameS->setEnabled(false);
     ui->btnSaveS->setEnabled(false);
 }
 
@@ -1878,8 +2027,7 @@ void MainWindow::unlockPageS()
 
     chkWidgetsSetEnable(true);
     this->restoreSecuritySetting();
-    ui->frameS1->setEnabled(true);
-    ui->frameS2->setEnabled(true);
+    ui->frameS->setEnabled(true);
     ui->btnUnlockS->setEnabled(false);
     ui->btnSaveS->setEnabled(true);
 }
@@ -1906,17 +2054,20 @@ int MainWindow::checkPassword()
 
 void MainWindow::changePass()
 {
-    //TODO: Reenter new password (validation)
 
     QString passIn = getPasswordIn("<p><b>Ingrese Clave Nueva<\b></p>");
     if(passIn!=QString::null)
     {
-        pass = passIn;
-        QMessageBox::information(this,"Cambio de clave", "La clave ha sido cambiada.");
-        saveSettings();
-    }
-    else
-        QMessageBox::warning(this,"Cambio de clave", "La clave NO ha sido cambiada.");
+        QString passIn2 = getPasswordIn("<p><b>Confirme la Clave Nueva<\b></p>");
+        if(passIn2!=QString::null && passIn==passIn2)
+        {
+            pass = passIn;
+            if(ui->btnSound->isChecked())
+                voiceAlert("Clave de seguridad cambiada");
+            saveSettings();
+            return;
+        }        
+    }    
 }
 
 
@@ -1929,8 +2080,7 @@ QString MainWindow::getPasswordIn(QString dafaultText)
     passwordDialog->exec();
 
     QString passOut = passUi->txtPass->text();
-    passUi->txtPass->setText("");
-    passUi->btnDel->setEnabled(false);
+    passUi->txtPass->setText("");    
 
     if(buttonOkPresed)
         return passOut;
@@ -1998,9 +2148,8 @@ void MainWindow::pressedOk()
 {
     if(passUi->txtPass->text()!="")
     {
-        buttonOkPresed=true;
+        buttonOkPresed=true;        
         passwordDialog->close();
-        passUi->txtPass->update();     
     }
 }
 
@@ -2011,40 +2160,24 @@ void MainWindow::pressedCancel()
 }
 
 void MainWindow::addToPass(int value)
-{
-    bool ok;
-    int current = passUi->txtPass->text().toInt(&ok,10);
+{    
+    QString current = passUi->txtPass->text();
 
-    if(value>=0)
+    if(value >= 0)
     {
-        if(current*10>9999)
-            current = current;
-        else
-            current = current*10 + value;
+        passUi->txtPass->setText(current+QString::number(value));
     }
-    else if(ok)
+    else if(value==-1)
     {
-        if(current<10)        
-            current = -1;
-        else
-            current = int(current/10);
+        if(current.length()>0)
+            passUi->txtPass->setText(current.mid(0,current.length()-1));
     }
 
-    if(current==-1)
-    {
-        passUi->txtPass->setText("");
-        passUi->btnDel->setEnabled(false);
-    }
-    else
-    {
-        passUi->txtPass->setText(QString::number(current));
-        passUi->btnDel->setEnabled(true);
-    }
-
-    if(current*10>9999)
-    {
+    if(passUi->txtPass->text().length()==4)
+    {        
         pressedOk();
     }
+
 }
 
 
@@ -2223,7 +2356,7 @@ int MainWindow::cmdEchoTest()
     {        
         sentDataFrame(char(CMD_ECHO_TEST),'X');
 
-        Sleeper::msleep(50);
+        Sleeper::msleep(20);
 
         a = serialAvr->ReadPort();
         if ((a & 1) == 1)

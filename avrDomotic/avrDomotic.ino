@@ -97,7 +97,7 @@ void setup()
   TCNT1 = 0;          // Reset counter1
   
   //PINS  
-  attachInterrupt(0,initTravelMode,FALLING);
+  //attachInterrupt(0,initTravelMode,FALLING);
   //attachInterrupt(1,initNigthMode,FALLING);
     
   for(int i=0; i<LIGTHS;i++)

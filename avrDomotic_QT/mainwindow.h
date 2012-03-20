@@ -5,6 +5,7 @@
 #include <QtCore>
 #include <QtGui>
 #include <QtXml>
+#include <QCryptographicHash>
 
 #include "ui_passworddialog.h"
 class Ui_PasswordDialog;
@@ -13,17 +14,22 @@ class Ui_PasswordDialog;
 #include "domo.h"
 #include "serialport.h"
 #include "callapp.h"
+#include "simplecrypt.h"
 
-#define defaultSerialName "/dev/ttyUSB2"
-
+#define defaultSerialName       "/dev/ttyUSB2"
+#define SettingsFileName        "settings.xml"
 #define ScreensaverOn           "gnome-screensaver-command -a"
 #define ScreensaverPoke         "gnome-screensaver-command -p"
 #define ScreensaverInhibit      "gnome-screensaver-command -i"
 #define ScreenForceOn           "xset dpms force on"
-#define ScreenForceOff          "xset dpms force off"
+#define ScreenForceOff          "xset dpms force on" //TODO
+#define VoiceMessage            "xset dpms force on"
 #define OpenMusicPlayer         ""
-#define TimeToInitSecuredMode   30 //Seconds
+#define TimeToInitSecuredMode   10 //Seconds
 #define TimeToAutoSaveSettings  10 //MInutes
+
+#define CryptoKey               Q_UINT64_C(0xFF00FF00FF00FF00) //TODO Change!
+
 
 #include <QThread>
 
@@ -66,7 +72,7 @@ private slots:
 
     void voiceAlert(QString);
 
-    void message(bool active=false, int mode = 0);
+    void message(int mode = -1);
 
     void chkWidgetsSetCheckable(bool);
     void chkWidgetsSetChecked(bool);
@@ -177,9 +183,22 @@ private slots:
 
 signals:
     void refresh();
+    void _messageState();
+    void _homeState();
+
+    void _cleanTabState();
+    void _homeTabState();
+    void _energyTabState();
+    void _settingsGTabState();
+    void _settingsSTabState();
+
 
 private:
     Ui::MainWindow *ui;
+    QGraphicsScene *scene;
+    QGraphicsProxyWidget *proxyAreaP;
+    QGraphicsProxyWidget *proxyPlanFrame;
+    QGraphicsProxyWidget *proxyTabWidget;
     QTimer *clockTimer;
     QTimer *serialTimer;    
     SerialPort *serialAvr;  
@@ -283,7 +302,16 @@ private:
     bool buttonOkPresed;
 
     /* Others */
-    
+    QStateMachine *machine;
+    QState *stateHome;
+    QState *stateMessage;
+    QStateMachine *tabMachine;
+    QState *rootTabState;
+    QState *cleanTabState;
+    QState *homeTabState;
+    QState *energyTabState;
+    QState *settingsGTabState;
+    QState *settingsSTabState;
 };
 
 #endif // MAINWINDOW_H

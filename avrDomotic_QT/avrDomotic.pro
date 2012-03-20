@@ -10,13 +10,16 @@ SOURCES += main.cpp \
     signaldisplay.cpp \
     serialport.cpp \
     counter.cpp \
-    callapp.cpp
+    callapp.cpp \
+    simplecrypt.cpp
 HEADERS += mainwindow.h \
     signaldisplay.h \
     domo.h \
     serialport.h \
     counter.h \
-    callapp.h
+    callapp.h \
+    simplecrypt.h \
+    simplecrypt.h
 FORMS += mainwindow.ui \
     passworddialog.ui
 RESOURCES += icons.qrc
