@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->lblCom->setVisible(false);
     ui->cmdTest->setVisible(false);
 
-    /* Animations States */    
+    /* Animations :) */
     stateHome = new QState;
     stateMessage = new QState;
 
@@ -556,6 +556,8 @@ void MainWindow::message(int mode)
 
     ui->btnMsg->disconnect();
     callApp::callApp(ScreensaverPoke,this);
+
+
 
     switch(mode)
     {
@@ -2075,12 +2077,13 @@ void MainWindow::changePass()
 /* Password Dialog */
 QString MainWindow::getPasswordIn(QString dafaultText)
 {
+    passUi->txtPass->setText("");
     buttonOkPresed=false;
+
     passUi->lblDefault->setText(dafaultText);
     passwordDialog->exec();
 
-    QString passOut = passUi->txtPass->text();
-    passUi->txtPass->setText("");    
+    QString passOut = passUi->txtPass->text();    
 
     if(buttonOkPresed)
         return passOut;
